@@ -1,9 +1,9 @@
 package student.lab;
 
 import java.text.DateFormat;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
 /**
@@ -62,10 +62,12 @@ public class DateUtilities {
     public LocalDateTime now() {
         return LocalDateTime.now();
     }
-    //First sting to date method.
+    
+    //First string to date method.
     /**
      * Format a <code>String</code> according to the ISO_LOCAL_DATE format.
-     *
+     * Example: 1999-01-01
+     * 
      * @param date - a <code>String</code> object
      * @return a date formatted according to the built in ISO_LOCAL_DATE format
      * @throws IllegalArgumentException if date is null/empty or if the dates 
@@ -83,9 +85,32 @@ public class DateUtilities {
         
         return parsedDate;
     }
+    //Second string to date method.
+    /**
+     * Format a <code>String</code> according to a custom date pattern set by 
+     * the user.
+     *
+     * @param date - a <code>String</code> object, must be formatted according 
+     * to the passed in format pattern
+     * @param pattern - a <code>String</code> object, format pattern used to 
+     * parse the date to a LocalDate object
+     * @return A LocalDate formatted according to a custom date format pattern
+     * @throws IllegalArgumentException if date or pattern is null or empty
+     */
+    public LocalDate toFormattedTextDate(String date, String pattern) throws IllegalArgumentException {
+        if (date == null || date.isEmpty() || pattern == null || pattern.isEmpty()) {
+            throw new DateTimeException();
+        } else if( date.length() != 8) {//based off pattern
+            //throw new DateTimeException("date length must be 8 chars ex:(19990101)");
+        }
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern(pattern);//"MM dd yyyy"
+        LocalDate parsedDate = LocalDate.parse(date, fmt);
+        
+        return parsedDate;
+    }
     
     //First date to string method.
-     /**
+    /**
      * Format a <code>LocalDateTime</code> according to the default pattern for 
      * the current local date/time.
      *
@@ -100,6 +125,41 @@ public class DateUtilities {
         }
         DateFormat fmt = DateFormat.getDateInstance();
         return fmt.format(date);
+    }
+    //Second date to string method
+    /**
+     * Format a <code>LocalDateTime</code> according to a custom pattern for 
+     * the current local date/time.
+     *
+     * @param date - a <code>LocalDateTime</code> object, to be formatted
+     * @param pattern - a <code>String</code> object, the format pattern
+     * @return a date formated according to a custom pattern 
+     * @throws IllegalArgumentException if date or pattern is null or empty
+     */
+    public String toFormattedString(LocalDateTime date, String pattern) throws IllegalArgumentException {
+        if (date == null || pattern == null || pattern.isEmpty()) {
+            throw new DateTimeException();
+        }
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern(pattern);
+        return fmt.format(date);
+    }
+    
+    //Time between
+    /**
+     * Calculates the time in days between two dates.
+     * @param date1 LocalDate object, start date
+     * @param date2 LocalDate object, end date
+     * @return A String for the amount of days between the two  dates.
+     * @throws IllegalArgumentException if either date parameter is null.
+     */
+    public String daysBetween(LocalDate date1, LocalDate date2) throws IllegalArgumentException {
+        if (date1 == null || date2 == null) {
+            throw new DateTimeException();
+        }
+        Duration daysBetween = Duration.between(date2, date2);
+
+        return "Days between: " + daysBetween.toDays();
+        //return daysBetween.toDays();
     }
     
     

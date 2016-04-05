@@ -18,8 +18,8 @@ public class DateTimeException extends IllegalArgumentException {
         super(ERR_MSG);
     }
 
-    public DateTimeException(String s) {
-        super(ERR_MSG);//super(s);
+    public DateTimeException(String message) {
+        super(message);//super(ERR_MSG);
     }
 
     public DateTimeException(String message, Throwable cause) {
